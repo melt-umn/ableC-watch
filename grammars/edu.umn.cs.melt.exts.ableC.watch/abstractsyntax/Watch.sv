@@ -22,34 +22,36 @@ top::Qualifier ::=
     | _                -> false
     end;
   top.qualIsHost = false;
-  top.qualifyErrors = [];
+  top.errors := [];
 }
 
 aspect production assignOp
 top::BinOp ::= op::AssignOp
 {
-  local insertPrint :: (Expr ::= Expr) =
+  local insertPrint :: (Stmt ::= Expr) =
     mkPrintFunc(op.lop);
 
-  top.rhsRuntimeInsertions <-
+  top.lhsRhsRuntimeMods <-
     if containsQualifier(watchQualifier(location=bogusLoc()), op.lop.typerep)
-    then [insertPrint]
+    then [rhsRuntimeMod(runtimeInsertion(insertPrint))]
     else [];
 }
 
 function mkPrintFunc
-(Expr ::= Expr) ::= lhs::Decorated Expr
+(Stmt ::= Expr) ::= lhs::Decorated Expr
 {
   return
     \tmpRhs :: Expr ->
-      directCallExpr(
-        name("printf", location=builtinLoc(MODULE_NAME)),
-        foldExpr([
-          txtExpr("\"" ++ lhs.location.unparse ++
-            ": " ++ show(80, lhs.pp) ++ " = %d\\n\"", location=builtinLoc(MODULE_NAME)),
-          tmpRhs
-        ]),
-        location=builtinLoc(MODULE_NAME)
+      exprStmt(
+        directCallExpr(
+          name("printf", location=builtinLoc(MODULE_NAME)),
+          foldExpr([
+            txtExpr("\"" ++ lhs.location.unparse ++
+              ": " ++ show(80, lhs.pp) ++ " = %d\\n\"", location=builtinLoc(MODULE_NAME)),
+            tmpRhs
+          ]),
+          location=builtinLoc(MODULE_NAME)
+        )
       );
 }
 

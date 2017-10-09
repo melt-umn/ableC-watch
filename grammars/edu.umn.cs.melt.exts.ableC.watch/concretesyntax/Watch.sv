@@ -9,7 +9,7 @@ imports edu:umn:cs:melt:exts:ableC:watch:abstractsyntax;
 
 marking terminal Watch_t 'watch' lexer classes {Ckeyword};
 
-concrete production WatchTypeQualifier_c
+concrete production watchTypeQualifier_c
 top::TypeQualifier_c ::= 'watch'
 {
   top.typeQualifiers = abs:foldQualifier([watchQualifier(location=top.location)]);
