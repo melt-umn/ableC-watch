@@ -32,7 +32,7 @@ top::BinOp ::= op::AssignOp
     mkPrintFunc(op.lop);
 
   top.lhsRhsRuntimeMods <-
-    if containsQualifier(watchQualifier(location=bogusLoc()), op.lop.typerep)
+    if containsQualifier(watchQualifier(location=builtinLoc(MODULE_NAME)), op.lop.typerep)
     then [rhsRuntimeMod(runtimeInsertion(insertPrint))]
     else [];
 }
