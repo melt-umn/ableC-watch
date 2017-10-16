@@ -14,8 +14,8 @@ top::Qualifier ::=
 {
   top.pp = pp"watch";
   top.mangledName = "watch";
-  top.qualIsPositive = false;
-  top.qualIsNegative = false;
+  top.qualIsPositive = true;
+  top.qualIsNegative = true;
   top.qualAppliesWithinRef = true;
   top.qualCompat = \qualToCompare::Qualifier ->
     case qualToCompare of
