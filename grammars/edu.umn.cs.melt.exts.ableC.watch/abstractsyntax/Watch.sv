@@ -3,6 +3,7 @@ grammar edu:umn:cs:melt:exts:ableC:watch:abstractsyntax;
 imports edu:umn:cs:melt:ableC:abstractsyntax;
 imports edu:umn:cs:melt:ableC:abstractsyntax:construction;
 imports edu:umn:cs:melt:ableC:abstractsyntax:env;
+imports edu:umn:cs:melt:ableC:abstractsyntax:injectable;
 imports silver:langutil;
 imports silver:langutil:pp;
 
