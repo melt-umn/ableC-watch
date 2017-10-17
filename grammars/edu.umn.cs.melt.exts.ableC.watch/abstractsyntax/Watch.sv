@@ -1,9 +1,9 @@
 grammar edu:umn:cs:melt:exts:ableC:watch:abstractsyntax;
 
-imports edu:umn:cs:melt:ableC:abstractsyntax;
+imports edu:umn:cs:melt:ableC:abstractsyntax:host;
 imports edu:umn:cs:melt:ableC:abstractsyntax:construction;
 imports edu:umn:cs:melt:ableC:abstractsyntax:env;
-imports edu:umn:cs:melt:ableC:abstractsyntax:injectable;
+imports edu:umn:cs:melt:ableC:abstractsyntax:injectable as inj;
 imports silver:langutil;
 imports silver:langutil:pp;
 
@@ -26,15 +26,15 @@ top::Qualifier ::=
   top.errors := [];
 }
 
-aspect production assignOp
-top::BinOp ::= op::AssignOp
+aspect production inj:eqExpr
+top::Expr ::= lhs::Expr rhs::Expr
 {
   local insertPrint :: (Stmt ::= Expr) =
-    mkPrintFunc(op.lop);
+    mkPrintFunc(lhs);
 
-  top.lhsRhsRuntimeMods <-
-    if containsQualifier(watchQualifier(location=builtinLoc(MODULE_NAME)), op.lop.typerep)
-    then [rhsRuntimeMod(runtimeInsertion(insertPrint))]
+  runtimeMods <-
+    if containsQualifier(watchQualifier(location=builtinLoc(MODULE_NAME)), lhs.typerep)
+    then [inj:rhsRuntimeMod(inj:runtimeInsertion(insertPrint))]
     else [];
 }
 
