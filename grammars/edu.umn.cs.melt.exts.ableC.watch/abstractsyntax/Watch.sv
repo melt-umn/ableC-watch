@@ -38,6 +38,57 @@ top::Expr ::= lhs::Expr rhs::Expr
     else [];
 }
 
+aspect production inj:directCallExpr
+top::Expr ::= f::Name a::Exprs
+{
+  local isQualifiedWatch :: Boolean =
+    containsQualifier(watchQualifier(location=bogusLoc()), f.valueItem.typerep);
+
+  local prePrint :: (Stmt ::= [Expr]) = \args::[Expr] ->
+    exprStmt(
+      directCallExpr(
+        name("printf", location=builtinLoc(MODULE_NAME)),
+        foldExpr(
+          stringLiteral(
+              "\"" ++ top.location.unparse ++ ": calling " ++ f.name ++ "(" ++
+              implode(",", map(\arg::Expr -> "%d", args)) ++
+              ")\\n\"",
+            location=builtinLoc(MODULE_NAME)
+          ) ::
+          map(\arg::Expr -> arg, args)
+        ),
+        location=builtinLoc(MODULE_NAME)
+      )
+    );
+
+  local postPrint :: (Stmt ::= [Expr] Expr) = \args::[Expr] result::Expr ->
+    exprStmt(
+      directCallExpr(
+        name("printf", location=builtinLoc(MODULE_NAME)),
+        foldExpr(
+          stringLiteral(
+              "\"" ++ top.location.unparse ++ ": returning " ++ f.name ++ "(" ++
+              implode(",", map(\arg::Expr -> "%d", args)) ++
+              ") = %d\\n\"",
+            location=builtinLoc(MODULE_NAME)
+          ) ::
+          (map(\arg::Expr -> arg, args) ++ [result])
+        ),
+        location=builtinLoc(MODULE_NAME)
+      )
+    );
+
+  preInsertions <-
+    if isQualifiedWatch
+    then [prePrint]
+    else [];
+
+  postInsertions <-
+    if isQualifiedWatch
+    then [postPrint]
+    else [];
+}
+
 function mkPrintFunc
 (Stmt ::= Expr) ::= lhs::Decorated Expr
 {
