@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "string.xh"
 
-int fib(int n) __function_qualifiers(watch)
+int fib(int n) <watch>
 {
 	if (n < 2) {
 		return n;
@@ -16,16 +16,12 @@ int fib(int n) __function_qualifiers(watch)
 
 int main(int argc, char *argv[])
 {
-	int n, result;
-    
 	if (argc != 2) {
 		fprintf(stderr, "Usage: fib <n>\n");
 		exit(1);
 	}
-	n = atoi(argv[1]);
-	result = fib(n);
 
-	printf("Result: %d\n", result);
+	printf("Result: %d\n", fib(atoi(argv[1])));
 	return 0; 
 }
 
