@@ -1,0 +1,8 @@
+$ ./example2.out
+example2.xc:8:8: (sum) = 3
+example2.xc:8:8: (sum) = 4
+example2.xc:8:8: (sum) = 6
+example2.xc:8:8: (sum) = 6
+example2.xc:8:8: (sum) = 9
+sum: 9
+
