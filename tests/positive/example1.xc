@@ -17,12 +17,7 @@ int main (int argc, char *argv[])
 {
     int n, result;
     
-    if (argc != 2) {
-         fprintf(stderr, "Usage: fib <n>\n");
-         exit(1);
-    }
-    n = atoi(argv[1]);
-    result = fib(n);
+    result = fib(10);
     
     printf("Result: %d\n", result);
     return 0; 
