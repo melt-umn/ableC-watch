@@ -53,11 +53,11 @@ top::Expr ::= lhs::Expr rhs::Expr
     else [];
 }
 
-aspect production inj:directCallExpr
-top::Expr ::= f::Name a::Exprs
+aspect production inj:callExpr
+top::Expr ::= f::Expr a::Exprs
 {
   local isQualifiedWatch :: Boolean =
-    containsQualifier(watchQualifier(location=bogusLoc()), f.valueItem.typerep);
+    containsQualifier(watchQualifier(location=bogusLoc()), f.typerep);
 
   local prePrint :: (Stmt ::= Decorated Exprs) = \args::Decorated Exprs ->
     exprStmt(
@@ -65,7 +65,7 @@ top::Expr ::= f::Name a::Exprs
         name("printf", location=builtinLoc(MODULE_NAME)),
         foldExpr(
           stringLiteral(
-              "\"" ++ top.location.unparse ++ ": calling " ++ f.name ++ "(" ++
+              "\"" ++ top.location.unparse ++ ": calling " ++ show(80, f.pp) ++ "(" ++
               implode(",", map(\i::Integer -> "%s", range(0, exprsLength(args)))) ++
               ")\\n\"",
             location=builtinLoc(MODULE_NAME)
@@ -82,7 +82,7 @@ top::Expr ::= f::Name a::Exprs
           name("printf", location=builtinLoc(MODULE_NAME)),
           foldExpr(
             stringLiteral(
-                "\"" ++ top.location.unparse ++ ": returning " ++ f.name ++ "(" ++
+                "\"" ++ top.location.unparse ++ ": returning " ++ show(80, f.pp) ++ "(" ++
                 implode(",", map(\i::Integer -> "%s", range(0, exprsLength(args)))) ++
                 ") = %s\\n\"",
               location=builtinLoc(MODULE_NAME)
