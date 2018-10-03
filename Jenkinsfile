@@ -2,6 +2,6 @@
 
 library "github.com/melt-umn/jenkins-lib"
 
-ablec.buildNormalExtension('ableC-vector', ['ableC-string'])
+ablec.buildNormalExtension('ableC-watch', ['ableC-string'])
 
 
