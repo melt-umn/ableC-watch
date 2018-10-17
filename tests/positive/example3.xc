@@ -14,14 +14,12 @@ int fib(int n) watch
 	}
 }
 
-int main(int argc, char *argv[])
+int main (int argc, char *argv[])
 {
-	if (argc != 2) {
-		fprintf(stderr, "Usage: fib <n>\n");
-		exit(1);
-	}
-
-	printf("Result: %d\n", fib(atoi(argv[1])));
-	return 0; 
+    int n, result;
+    
+    result = fib(10);
+    
+    printf("Result: %d\n", result);
+    return 0; 
 }
-
