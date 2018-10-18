@@ -117,7 +117,7 @@ function showExprText
 Expr ::= e::Expr
 {
   return
-    memberExpr(
+    memberString(
       showExpr(e, location=builtinLoc(MODULE_NAME)),
       false,
       name("text", location=builtinLoc(MODULE_NAME)),
