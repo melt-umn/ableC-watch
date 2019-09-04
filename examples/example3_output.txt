@@ -1,0 +1,21 @@
+$ ./example3.out 4
+example3.xc:23:24: calling fib(4)
+example3.xc:10:6: calling fib(3)
+example3.xc:10:6: calling fib(2)
+example3.xc:10:6: calling fib(1)
+example3.xc:10:6: returning fib(1) = 1
+example3.xc:11:6: calling fib(0)
+example3.xc:11:6: returning fib(0) = 0
+example3.xc:10:6: returning fib(2) = 1
+example3.xc:11:6: calling fib(1)
+example3.xc:11:6: returning fib(1) = 1
+example3.xc:10:6: returning fib(3) = 2
+example3.xc:11:6: calling fib(2)
+example3.xc:10:6: calling fib(1)
+example3.xc:10:6: returning fib(1) = 1
+example3.xc:11:6: calling fib(0)
+example3.xc:11:6: returning fib(0) = 0
+example3.xc:11:6: returning fib(2) = 1
+example3.xc:23:24: returning fib(4) = 3
+Result: 3
+

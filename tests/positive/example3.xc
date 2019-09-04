@@ -2,16 +2,16 @@
 #include <stdlib.h>
 #include "string.xh"
 
-int fib(int n)
+int fib(int n) watch
 {
-     if (n < 2) {
-	  return n;
-     } else {
-	  watch int x, y;
-	  x = fib(n - 1);
-	  y = fib(n - 2);
-	  return x + y;
-     }
+	if (n < 2) {
+		return n;
+	} else {
+		int x, y;
+		x = fib(n-1);
+		y = fib(n-2);
+		return x + y;
+	}
 }
 
 int main (int argc, char *argv[])

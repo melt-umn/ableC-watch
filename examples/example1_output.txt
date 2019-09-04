@@ -1,0 +1,11 @@
+$ ./example1.out 4
+example1.xc:10:3: (x) = 1
+example1.xc:11:3: (y) = 0
+example1.xc:10:3: (x) = 1
+example1.xc:11:3: (y) = 1
+example1.xc:10:3: (x) = 2
+example1.xc:10:3: (x) = 1
+example1.xc:11:3: (y) = 0
+example1.xc:11:3: (y) = 1
+Result: 3
+
