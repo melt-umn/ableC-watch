@@ -7,7 +7,7 @@ imports silver:langutil only ast;
 
 imports edu:umn:cs:melt:exts:ableC:watch:abstractsyntax;
 
-marking terminal Watch_t 'watch' lexer classes {Ckeyword};
+marking terminal Watch_t 'watch' lexer classes {Keyword, Global};
 
 concrete production watchTypeQualifier_c
 top::TypeQualifier_c ::= 'watch'
