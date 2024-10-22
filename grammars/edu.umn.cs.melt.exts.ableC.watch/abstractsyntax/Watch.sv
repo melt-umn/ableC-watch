@@ -34,21 +34,19 @@ top::Expr ::= lhs::Expr rhs::Expr
     \tmpRhs :: Expr ->
       exprStmt(
         directCallExpr(
-          name("printf", location=builtinLoc(MODULE_NAME)),
+          name("printf"),
           foldExpr([
             stringLiteral(
-              "\"" ++ lhs.location.unparse ++
-              ": " ++ show(80, lhs.pp) ++ " = %s\\n\"",
-              location=builtinLoc(MODULE_NAME)
+              "\"" ++ getParsedOriginLocationOrFallback(lhs).unparse ++
+              ": " ++ show(80, lhs.pp) ++ " = %s\\n\""
             ),
             showExprText(tmpRhs)
-          ]),
-          location=builtinLoc(MODULE_NAME)
+          ])
         )
       );
 
   runtimeMods <-
-    if containsQualifier(watchQualifier(location=builtinLoc(MODULE_NAME)), lhs.typerep)
+    if containsQualifier(watchQualifier(), lhs.typerep)
     then [inj:rhsRuntimeMod(inj:runtimeInsertion(insertPrint))]
     else [];
 }
@@ -57,21 +55,19 @@ aspect production inj:callExpr
 top::Expr ::= f::Expr a::Exprs
 {
   local isQualifiedWatch :: Boolean =
-    containsQualifier(watchQualifier(location=bogusLoc()), f.typerep);
+    containsQualifier(watchQualifier(), f.typerep);
 
   local prePrint :: (Stmt ::= Decorated Exprs) = \args::Decorated Exprs ->
     exprStmt(
       directCallExpr(
-        name("printf", location=builtinLoc(MODULE_NAME)),
+        name("printf"),
         foldExpr(
           stringLiteral(
-              "\"" ++ top.location.unparse ++ ": calling " ++ show(80, f.pp) ++ "(" ++
+              "\"" ++ getParsedOriginLocationOrFallback(top).unparse ++ ": calling " ++ show(80, f.pp) ++ "(" ++
               implode(",", map(\i::Integer -> "%s", range(0, exprsLength(args)))) ++
-              ")\\n\"",
-            location=builtinLoc(MODULE_NAME)
+              ")\\n\""
           ) :: showExprs(args)
-        ),
-        location=builtinLoc(MODULE_NAME)
+        )
       )
     );
 
@@ -79,16 +75,14 @@ top::Expr ::= f::Expr a::Exprs
     \args::Decorated Exprs  result::Decorated Expr ->
       exprStmt(
         directCallExpr(
-          name("printf", location=builtinLoc(MODULE_NAME)),
+          name("printf"),
           foldExpr(
             stringLiteral(
-                "\"" ++ top.location.unparse ++ ": returning " ++ show(80, f.pp) ++ "(" ++
+                "\"" ++ getParsedOriginLocationOrFallback(top).unparse ++ ": returning " ++ show(80, f.pp) ++ "(" ++
                 implode(",", map(\i::Integer -> "%s", range(0, exprsLength(args)))) ++
-                ") = %s\\n\"",
-              location=builtinLoc(MODULE_NAME)
+                ") = %s\\n\""
             ) :: (showExprs(args) ++ [showExprText(new(result))])
-          ),
-          location=builtinLoc(MODULE_NAME)
+          )
         )
       );
 
@@ -118,10 +112,9 @@ Expr ::= e::Expr
 {
   return
     memberString(
-      showExpr(e, location=builtinLoc(MODULE_NAME)),
+      showExpr(e),
       false,
-      name("text", location=builtinLoc(MODULE_NAME)),
-      location=builtinLoc(MODULE_NAME)
+      name("text")
     );
 }
 

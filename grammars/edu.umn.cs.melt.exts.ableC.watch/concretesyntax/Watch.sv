@@ -12,7 +12,7 @@ marking terminal Watch_t 'watch' lexer classes {Keyword, Global};
 concrete production watchTypeQualifier_c
 top::TypeQualifier_c ::= 'watch'
 {
-  top.typeQualifiers = abs:foldQualifier([watchQualifier(location=top.location)]);
+  top.typeQualifiers = abs:foldQualifier([watchQualifier()]);
   top.mutateTypeSpecifiers = [];
 }
 
